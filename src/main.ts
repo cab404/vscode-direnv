@@ -4,9 +4,6 @@ import * as vscode from 'vscode'
 import * as utils from './utils'
 import * as constants from './constants'
 import { Command } from './command'
-import { Console } from 'console'
-import { stat } from 'fs'
-import { promises } from 'dns'
 
 const restartExtensionHost = () => vscode.commands.executeCommand("workbench.action.restartExtensionHost")
 const command = new Command(vscode.workspace.rootPath)
