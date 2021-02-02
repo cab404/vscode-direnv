@@ -5,6 +5,11 @@
     "version": "0.0.3",
     "publisher": "cab404",
     "license": "MIT",
+    "contributors": [
+        { "name": "cab404", "url": "https://github.com/cab404" },
+        { "name": "rubymaniac", "url": "https://github.com/rubymaniac" },
+        { "name": "timbertson", "url": "https://github.com/timbertson" }
+    ],
     "engines": {
         "vscode": "^1.34.0"
     },
