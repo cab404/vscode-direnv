@@ -17,8 +17,8 @@ This extension needs direnv installed to work. Please refer [here](https://githu
 
 Via Quick Open:
 
-1. [Download](https://code.visualstudio.com/download), install and open VS Code 
-2. Press `cmd+p` to open the Quick Open dialog
+1. [Download](https://vscodium.com/#install), install and open VS Codium (or VS Code) 
+2. Press `ctrl++p` to open the Quick Open dialog
 3. Type `ext install direnv`
 4. Click the *Install* button, then the *Enable* button
 
@@ -31,7 +31,7 @@ Via the Extensions tab:
 Via the command line:
 
 1. Open a command-line prompt
-2. Run `code --install-extension Rubymaniac.vscode-direnv`
+2. Run `codium --install-extension cab404.vscode-direnv`
 
 ## Usage
 
@@ -51,6 +51,7 @@ In order to run a command press `cmd+shift+p` to view the Command Palette. There
 * `direnv allow` to allow and load the current `.envrc`
 * `direnv view` to view your `.envrc` and make changes
 * `direnv version` to view the current `direnv` version
+* `direnv reload` to reload `.envrc` file
 
 ## Contribute
 
@@ -60,7 +61,7 @@ For any bugs and feature requests please open an issue. For code contributions p
 
 MIT License
 
-Copyright (c) rubymaniac
+Copyright (c) rubymaniac, cab404
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
