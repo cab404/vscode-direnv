@@ -128,7 +128,9 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.commands.registerCommand('direnv.view', viewEnvrc))
     context.subscriptions.push(vscode.commands.registerCommand('direnv.allow', allow))
     context.subscriptions.push(vscode.commands.registerCommand('direnv.reload', reloadAsync))
-    Promise.resolve(changes).then(refresh_indicator)
+    changes
+        .then(refresh_indicator)
+        .catch(envrc_blocked_message)
 }
 
 export function deactivate() {
