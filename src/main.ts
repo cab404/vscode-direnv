@@ -68,8 +68,9 @@ const reload_if_changed = async (changes: utils.ChangeList) => {
     // ignoring direnv changes, they happen every change of file.
     changes = Object.keys(changes).filter((k) => !k.startsWith("DIRENV_"))
     if (changes.length > 0) {
-        vscode.window.showInformationMessage(`Keys ${changes} changed, reloading extensions.`)
-        await restartExtensionHost()
+        const action = await vscode.window.showWarningMessage(`${changes.length} variables changed, reload extensions?`, "Reload")
+        if (action == "Reload")
+            restartExtensionHost()
     }
 }
 
