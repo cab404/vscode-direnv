@@ -52,6 +52,7 @@ const direnv_export = (sync: boolean) => {
 }
 
 const apply_direnv_json = (changes: any) => {
+    utils.assign(process.env, changes)
     return utils.assign(initial_env_diff, changes)
 }
 
