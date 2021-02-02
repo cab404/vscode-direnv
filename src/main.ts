@@ -78,10 +78,9 @@ const allow = () => {
     return command.allow()
         .then(() => direnv_export(false))
         .then(apply_direnv_json)
-        .then(async (changes) => {
-            await reload_if_changed(changes)
-            await refresh_indicator()
-            vscode.window.showInformationMessage("direnv: .envrc applied!")
+        .then((changes) => {
+            reload_if_changed(changes)
+            refresh_indicator()
         })
 }
 
@@ -94,15 +93,15 @@ const allowFromOption = (option) => {
 // commands
 const reloadAsync = () => direnv_export(false)
     .then(apply_direnv_json)
-    .then(async () => {
-        await refresh_indicator()
-        await vscode.window.showInformationMessage("direnv: .envrc applied!")
+    .then((changes) => {
+        reload_if_changed(changes)
+        refresh_indicator()
     })
     .catch(async (err) => {
         if (err.message.indexOf(`.envrc is blocked`) !== -1) {
-            await envrc_blocked_message()
+            envrc_blocked_message()
         } else {
-            await vscode.window.showErrorMessage(constants.messages.error(err))
+            vscode.window.showErrorMessage(constants.messages.error(err))
         }
     })
 
