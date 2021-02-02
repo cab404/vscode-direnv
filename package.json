@@ -2,7 +2,7 @@
     "name": "vscode-direnv",
     "displayName": "direnv",
     "description": "Automatically detect and load .envrc when opening VS Code",
-    "version": "0.0.3",
+    "version": "1.0.0",
     "publisher": "cab404",
     "license": "MIT",
     "contributors": [
