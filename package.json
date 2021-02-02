@@ -52,8 +52,13 @@
             },
             {
                 "command": "direnv.allow",
-                "title": "direnv: allow the .envrc",
+                "title": "direnv: allow .envrc",
                 "description": "Allows direnv to load the .envrc."
+            },
+            {
+                "command": "direnv.reload",
+                "title": "direnv: reload .envrc",
+                "description": "Triggers an env reload"
             }
         ]
     },

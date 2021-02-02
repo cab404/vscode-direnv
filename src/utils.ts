@@ -1,16 +1,19 @@
-'use strict';
+'use strict'
 
-export function assign(destination: any, ...sources: any[]): number {
-    let changes = 0
+export type ChangeList = any
+
+export function assign(destination: any, ...sources: any[]): ChangeList {
+    const changes = {}
     sources.forEach(source => Object.keys(source).forEach((key) => {
         if (source[key] != destination[key]) {
-            changes += 1
             if (source[key] == null) {
+                changes[key] = null
                 delete destination[key]
             } else {
+                changes[key] = destination[key]
                 destination[key] = source[key]
             }
         }
-    }));
+    }))
     return changes
 }
