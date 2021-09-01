@@ -7,7 +7,6 @@ import { Command } from './command'
 
 const restartExtensionHost = () => vscode.commands.executeCommand("workbench.action.restartExtensionHost")
 const command = new Command(vscode.workspace.rootPath)
-const watcher = vscode.workspace.createFileSystemWatcher(command.rcPath, true)
 
 const displayError = (e) => vscode.window.showErrorMessage(constants.messages.error(e))
 const handleError = (t: Thenable<any>) => t.then(undefined, displayError)
@@ -111,14 +110,19 @@ const viewThenAllow = () => viewEnvrc().then(() =>
         constants.vscode.extension.actions.allow)).then(allowFromOption)
 
 // .envrc changes
-watcher.onDidChange((e) => vscode.window.showWarningMessage(
-    `direnv: Your .envrc has changed.`,
-    constants.vscode.extension.actions.allow).then(allowFromOption)
-)
-watcher.onDidDelete((e) => vscode.window.showWarningMessage(
-    `direnv: You deleted the .envrc. Would you like to revert to the old environment?`,
-    constants.vscode.extension.actions.revert).then(revertFromOption)
-)
+{
+    const watcher = vscode.workspace.createFileSystemWatcher(command.rcPath, true)
+
+    watcher.onDidChange((e) => vscode.window.showWarningMessage(
+        `direnv: Your .envrc has changed.`,
+        constants.vscode.extension.actions.allow).then(allowFromOption)
+    )
+    watcher.onDidDelete((e) => vscode.window.showWarningMessage(
+        `direnv: You deleted the .envrc. Would you like to revert to the old environment?`,
+        constants.vscode.extension.actions.revert).then(revertFromOption)
+    )
+}
+
 
 // This means plugin activation state isn't actually respected.
 const changes = direnv_export(true).then(apply_direnv_json)
