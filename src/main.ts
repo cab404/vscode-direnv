@@ -60,7 +60,7 @@ const refresh_indicator = async () => {
     // ignoring direnv variables in total count of variables
     const len = Object.keys(initial_env_diff).filter((k) => !k.startsWith("DIRENV_")).length
     status_overrides.text = `$(find-replace)${len}`
-    status_overrides.tooltip = `direnv: ${len} overriden variables`
+    status_overrides.tooltip = `direnv: ${len} overridden variables`
     status_overrides.show()
 }
 
