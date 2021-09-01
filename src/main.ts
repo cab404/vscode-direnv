@@ -98,6 +98,14 @@ const allowFromOption = (option) => {
     }
 }
 
+const handleDirenvError = async (err) => {
+    if (err.message.indexOf(`.envrc is blocked`) !== -1) {
+        envrc_blocked_message()
+    } else {
+        vscode.window.showErrorMessage(constants.messages.error(err))
+    }
+}
+
 // commands
 const reloadAsync = () => direnv_export(false)
     .then(apply_direnv_json)
@@ -105,13 +113,7 @@ const reloadAsync = () => direnv_export(false)
         reload_if_changed(changes)
         refresh_indicator()
     })
-    .catch(async (err) => {
-        if (err.message.indexOf(`.envrc is blocked`) !== -1) {
-            envrc_blocked_message()
-        } else {
-            vscode.window.showErrorMessage(constants.messages.error(err))
-        }
-    })
+    .catch(handleDirenvError)
 
 const viewEnvrc = () => handleError(vscode.commands.executeCommand('vscode.open', vscode.Uri.file(command.rcPath)))
 const viewThenAllow = () => viewEnvrc().then(() =>
@@ -145,7 +147,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     changes
         .then(refresh_indicator)
-        .catch(envrc_blocked_message)
+        .catch(handleDirenvError)
 }
 
 export function deactivate() {
