@@ -37,7 +37,8 @@ const envrc_blocked_message = async () => {
     }
 }
 
-const initial_env_diff : any = {}
+const initial_env_diff: any = {}
+
 class DirenvTerminalProfile implements TerminalProfileProvider {
     env: any
 
@@ -134,8 +135,9 @@ const viewThenAllow = () => viewEnvrc().then(() =>
     )
 }
 
+// Actual initialization below
 
-// This means plugin activation state isn't actually respected.
+// These would execute synchronously, this is just a nice syntax to do dependent operations.
 const changes = direnv_export(true).then(apply_direnv_json)
 
 export function activate(context: vscode.ExtensionContext) {
@@ -145,11 +147,12 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.commands.registerCommand('direnv.reload', reloadAsync))
     vscode.window.registerTerminalProfileProvider("direnv", new DirenvTerminalProfile())
 
+    // Now is the time to show errors (if any) and refresh (env var count) indicator
     changes
         .then(refresh_indicator)
         .catch(handleDirenvError)
 }
 
-export function deactivate() {
+export function deactivate(): void {
     /* okay to be empty */
 }

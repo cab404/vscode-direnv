@@ -8,7 +8,7 @@ import { threadId } from 'worker_threads'
 
 interface CommandExecOptions {
     cmd: string
-    cwd?: boolean
+    cwd?: boolean,
 }
 
 /**
