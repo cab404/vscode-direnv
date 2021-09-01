@@ -4,6 +4,7 @@ import * as vscode from 'vscode'
 import * as utils from './utils'
 import * as constants from './constants'
 import { Command } from './command'
+import { TerminalProfileProvider } from 'vscode'
 
 const restartExtensionHost = () => vscode.commands.executeCommand("workbench.action.restartExtensionHost")
 const command = new Command(vscode.workspace.rootPath)
@@ -37,6 +38,14 @@ const envrc_blocked_message = async () => {
 }
 
 const initial_env_diff : any = {}
+class DirenvTerminalProfile implements TerminalProfileProvider {
+    env: any
+
+    provideTerminalProfile(token: vscode.CancellationToken): vscode.ProviderResult<vscode.TerminalProfile> {
+        return new vscode.TerminalProfile({ message: `loaded ${Object.keys(initial_env_diff).length} var(s) from direnv;`, env: initial_env_diff })
+    }
+
+}
 
 const direnv_export = (sync: boolean) => {
     if (sync) {
@@ -132,6 +141,8 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.commands.registerCommand('direnv.view', viewEnvrc))
     context.subscriptions.push(vscode.commands.registerCommand('direnv.allow', allow))
     context.subscriptions.push(vscode.commands.registerCommand('direnv.reload', reloadAsync))
+    vscode.window.registerTerminalProfileProvider("direnv", new DirenvTerminalProfile())
+
     changes
         .then(refresh_indicator)
         .catch(envrc_blocked_message)

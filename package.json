@@ -44,6 +44,14 @@
     ],
     "main": "./out/src/main",
     "contributes": {
+        "terminal": {
+            "profiles": [
+                {
+                    "id": "direnv",
+                    "title": "direnv-extended terminal"
+                }
+            ]
+        },
         "commands": [
             {
                 "command": "direnv.version",
