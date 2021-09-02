@@ -5,10 +5,11 @@ import { exec, execSync, ExecOptionsWithStringEncoding } from 'child_process'
 import * as constants from './constants'
 import * as utils from './utils'
 import { threadId } from 'worker_threads'
+import { env } from 'process'
 
 interface CommandExecOptions {
-    cmd: string
-    cwd?: boolean,
+    cmd: string,
+    env?: { [k: string]: string }
 }
 
 /**
@@ -19,7 +20,7 @@ export class Command {
     rcPath: string
     constructor(rootPath: string) {
         this.rootPath = rootPath
-        this.rcPath = path.join(rootPath, `.envrc`)
+        this.rcPath = this.envrcPath()
     }
     // Private methods
     private execAsync(options: CommandExecOptions): Promise<string> {
@@ -32,10 +33,15 @@ export class Command {
 
     private exec(sync: boolean, options: CommandExecOptions): Promise<string> | string {
         const direnvCmd = [constants.direnv.cmd, options.cmd].join(' ')
-        const execOptions: ExecOptionsWithStringEncoding = { encoding: 'utf8' }
-        if (options.cwd == null || options.cwd) {
-            execOptions.cwd = this.rootPath
+        const execOptions: ExecOptionsWithStringEncoding = { encoding: 'utf8', cwd: this.rootPath }
+
+        if (options.env != undefined) {
+            // this one is not as straightforward as one would want.
+            execOptions.env = {}
+            Object.assign(execOptions.env, process.env)
+            Object.assign(execOptions.env, options.env)
         }
+
         if (sync) {
             console.log("NOTE: executing command synchronously", direnvCmd)
             return execSync(direnvCmd, execOptions)
@@ -54,6 +60,7 @@ export class Command {
     }
     // Public methods
     version = () => this.execAsync({ cmd: 'version' })
+    envrcPath = () => this.execSync({ cmd: 'edit', env: { "EDITOR": "echo" } }).trimEnd()
     allow = () => this.execAsync({ cmd: 'allow' })
     exportJSON = () => this.execAsync({ cmd: 'export json' }).then(f => f ? JSON.parse(f) : {})
     exportJSONSync = () => {
