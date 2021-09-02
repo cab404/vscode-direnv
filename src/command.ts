@@ -18,10 +18,12 @@ interface CommandExecOptions {
 export class Command {
     rootPath: string
     rcPath: string
+
     constructor(rootPath: string) {
         this.rootPath = rootPath
         this.rcPath = this.envrcPath()
     }
+
     // Private methods
     private execAsync(options: CommandExecOptions): Promise<string> {
         return <Promise<string>>this.exec(false, options)

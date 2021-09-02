@@ -20,10 +20,9 @@ const revertFromOption = (option) => {
     }
 }
 
-const status_overrides = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 0)
-status_overrides.tooltip = "direnv environment active; click to reload"
+const statusOverrides = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 0)
 
-const envrc_blocked_message = async () => {
+const envrcBlockedMessage = async () => {
     const opts = [
         "Allow", "View .envrc"
     ]
@@ -37,18 +36,22 @@ const envrc_blocked_message = async () => {
     }
 }
 
-const initial_env_diff: any = {}
+/** Contains current difference from system environment */
+const envDiff: any = {}
 
 class DirenvTerminalProfile implements TerminalProfileProvider {
     env: any
 
     provideTerminalProfile(token: vscode.CancellationToken): vscode.ProviderResult<vscode.TerminalProfile> {
-        return new vscode.TerminalProfile({ message: `loaded ${Object.keys(initial_env_diff).length} var(s) from direnv;`, env: initial_env_diff })
+        return new vscode.TerminalProfile({ message: `loaded ${Object.keys(envDiff).length} var(s) from direnv;`, env: envDiff })
     }
 
 }
 
-const direnv_export = (sync: boolean) => {
+/** Returns a promise with decoded JSON from `direnv export`.
+ * @param sync Whether returned promise is already resolved.
+*/
+const direnvExport = (sync: boolean) => {
     if (sync) {
         try {
             return Promise.resolve(command.exportJSONSync())
@@ -60,20 +63,23 @@ const direnv_export = (sync: boolean) => {
     }
 }
 
-const apply_direnv_json = (changes: any) => {
+/** Applies changes from direnv export to envDiff and process.env */
+const applyDirenvJson = (changes: any) => {
     utils.assign(process.env, changes)
-    return utils.assign(initial_env_diff, changes)
+    return utils.assign(envDiff, changes)
 }
 
-const refresh_indicator = async () => {
+/** Updates direnv indicator with a current overridden env variable count */
+const refreshIndicator = async () => {
     // ignoring direnv variables in total count of variables
-    const len = Object.keys(initial_env_diff).filter((k) => !k.startsWith("DIRENV_")).length
-    status_overrides.text = `$(find-replace)${len}`
-    status_overrides.tooltip = `direnv: ${len} overridden variables`
-    status_overrides.show()
+    const len = Object.keys(envDiff).filter((k) => !k.startsWith("DIRENV_")).length
+    statusOverrides.text = `$(find-replace)${len}`
+    statusOverrides.tooltip = `direnv: ${len} overridden variables`
+    statusOverrides.show()
 }
 
-const reload_if_changed = async (changes: utils.ChangeList) => {
+/** Gives user an option to restart extension host if there are changes in given change list. */
+const reloadIfChanged = async (changes: utils.ChangeList) => {
     // ignoring direnv changes, they happen every change of file.
     changes = Object.keys(changes).filter((k) => !k.startsWith("DIRENV_"))
     if (changes.length > 0) {
@@ -85,11 +91,11 @@ const reload_if_changed = async (changes: utils.ChangeList) => {
 
 const allow = () => {
     return command.allow()
-        .then(() => direnv_export(false))
-        .then(apply_direnv_json)
+        .then(() => direnvExport(false))
+        .then(applyDirenvJson)
         .then((changes) => {
-            reload_if_changed(changes)
-            refresh_indicator()
+            reloadIfChanged(changes)
+            refreshIndicator()
         })
 }
 
@@ -100,19 +106,20 @@ const allowFromOption = (option) => {
 }
 
 const handleDirenvError = async (err) => {
+    console.log("direnv error:", err)
     if (err.message.indexOf(`.envrc is blocked`) !== -1) {
-        envrc_blocked_message()
+        envrcBlockedMessage()
     } else {
         vscode.window.showErrorMessage(constants.messages.error(err))
     }
 }
 
 // commands
-const reloadAsync = () => direnv_export(false)
-    .then(apply_direnv_json)
+const reloadAsync = () => direnvExport(false)
+    .then(applyDirenvJson)
     .then((changes) => {
-        reload_if_changed(changes)
-        refresh_indicator()
+        reloadIfChanged(changes)
+        refreshIndicator()
     })
     .catch(handleDirenvError)
 
@@ -138,7 +145,7 @@ const viewThenAllow = () => viewEnvrc().then(() =>
 // Actual initialization below
 
 // These would execute synchronously, this is just a nice syntax to do dependent operations.
-const changes = direnv_export(true).then(apply_direnv_json)
+const changes = direnvExport(true).then(applyDirenvJson)
 
 export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.commands.registerCommand('direnv.version', version))
@@ -149,7 +156,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     // Now is the time to show errors (if any) and refresh (env var count) indicator
     changes
-        .then(refresh_indicator)
+        .then(refreshIndicator)
         .catch(handleDirenvError)
 }
 
