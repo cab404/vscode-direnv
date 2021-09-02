@@ -9,16 +9,19 @@ This extension adds support for direnv to VS Code, including:
 * Auto-detect changes to .envrc
 * Auto-detect deletion of .envrc and prompt to revert your environment
 
+### Changes since 1.0.0
++ Added direnv terminal profile. You can select it with `> Terminal: Select default profile`.
+* Fixed "view .envrc" on projects where .envrc is not in the root
+
 ## Prerequisites
 
 This extension needs direnv installed to work. Please refer [here](https://github.com/direnv/direnv#install) for installation instructions.
-
 ## Install
 
 Via Quick Open:
 
-1. [Download](https://vscodium.com/#install), install and open VS Codium (or VS Code) 
-2. Press `ctrl++p` to open the Quick Open dialog
+1. [Download](https://vscodium.com/#install), install and open VS Codium (or VS Code)
+2. Press `ctrl+p` to open the Quick Open dialog
 3. Type `ext install direnv`
 4. Click the *Install* button, then the *Enable* button
 
@@ -55,28 +58,4 @@ In order to run a command press `cmd+shift+p` to view the Command Palette. There
 
 ## Contribute
 
-For any bugs and feature requests please open an issue. For code contributions please create a pull request. Enjoy!  
-
-## LICENSE
-
-MIT License
-
-Copyright (c) rubymaniac, cab404
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+For any bugs and feature requests please open an issue. For code contributions please create a pull request. Enjoy!
