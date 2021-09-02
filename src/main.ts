@@ -40,13 +40,11 @@ const envrcBlockedMessage = async () => {
 const envDiff: any = {}
 
 class DirenvTerminalProfile implements TerminalProfileProvider {
-    env: any
-
     provideTerminalProfile(token: vscode.CancellationToken): vscode.ProviderResult<vscode.TerminalProfile> {
         return new vscode.TerminalProfile({ message: `loaded ${Object.keys(envDiff).length} var(s) from direnv;`, env: envDiff })
     }
-
 }
+vscode.window.registerTerminalProfileProvider("direnv", new DirenvTerminalProfile())
 
 /** Returns a promise with decoded JSON from `direnv export`.
  * @param sync Whether returned promise is already resolved.
@@ -152,7 +150,6 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.commands.registerCommand('direnv.view', viewEnvrc))
     context.subscriptions.push(vscode.commands.registerCommand('direnv.allow', allow))
     context.subscriptions.push(vscode.commands.registerCommand('direnv.reload', reloadAsync))
-    vscode.window.registerTerminalProfileProvider("direnv", new DirenvTerminalProfile())
 
     // Now is the time to show errors (if any) and refresh (env var count) indicator
     changes
