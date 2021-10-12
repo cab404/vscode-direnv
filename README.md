@@ -1,5 +1,7 @@
 # [direnv](https://github.com/direnv/direnv) for Visual Studio Code
 
+[![Develop this project with Nix + direnv](https://raw.githubusercontent.com/cab404/nixdirenv/master/shield-long.baked.svg)](https://github.com/cab404/nixdirenv/#development)
+
 This extension adds support for direnv to VS Code, including:
 
 * Auto-load the environment if the .envrc file is allowed
@@ -55,7 +57,3 @@ In order to run a command press `cmd+shift+p` to view the Command Palette. There
 * `direnv view` to view your `.envrc` and make changes
 * `direnv version` to view the current `direnv` version
 * `direnv reload` to reload `.envrc` file
-
-## Contribute
-
-For any bugs and feature requests please open an issue. For code contributions please create a pull request. Enjoy!
