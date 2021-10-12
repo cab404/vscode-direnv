@@ -41,7 +41,11 @@ const envDiff: any = {}
 
 class DirenvTerminalProfile implements TerminalProfileProvider {
     provideTerminalProfile(token: vscode.CancellationToken): vscode.ProviderResult<vscode.TerminalProfile> {
-        return new vscode.TerminalProfile({ message: `loaded ${Object.keys(envDiff).length} var(s) from direnv;`, env: envDiff })
+        if (!command.envrcExists()) {
+            // Nothing new will be added, don't add anything silently.
+            return new vscode.TerminalProfile({})
+        }
+        return new vscode.TerminalProfile({ message: `loaded ${Object.keys(envDiff).length} var(s) from ${command.rcPath};`, env: envDiff })
     }
 }
 vscode.window.registerTerminalProfileProvider("direnv", new DirenvTerminalProfile())
@@ -107,7 +111,11 @@ const handleDirenvError = async (err) => {
     console.log("direnv error:", err)
     if (err.message.indexOf(`.envrc is blocked`) !== -1) {
         envrcBlockedMessage()
-    } else {
+    } else
+    if (err.message.indexOf(`.envrc not found`) !== -1) {
+        console.log("No .envrc found, doing nothing.")
+    } else
+    {
         vscode.window.showErrorMessage(constants.messages.error(err))
     }
 }

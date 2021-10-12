@@ -21,7 +21,14 @@ export class Command {
 
     constructor(rootPath: string) {
         this.rootPath = rootPath
-        this.rcPath = this.envrcPath()
+        // TODO: add exception on non-existent direnv binary
+        try {
+            this.rcPath = this.envrcPath()
+        } catch (err) {
+            // Not really interested in catching this error.
+            console.log("Failed to get .envrc path")
+            this.rcPath = null
+        }
     }
 
     // Private methods
@@ -60,9 +67,12 @@ export class Command {
             })
         }
     }
+
+    private envrcPath = () => this.execSync({ cmd: 'edit', env: { "EDITOR": "echo" } }).trimEnd()
+
     // Public methods
+    envrcExists = () => this.rcPath != null
     version = () => this.execAsync({ cmd: 'version' })
-    envrcPath = () => this.execSync({ cmd: 'edit', env: { "EDITOR": "echo" } }).trimEnd()
     allow = () => this.execAsync({ cmd: 'allow' })
     exportJSON = () => this.execAsync({ cmd: 'export json' }).then(f => f ? JSON.parse(f) : {})
     exportJSONSync = () => {
