@@ -52,7 +52,8 @@
         "Other"
     ],
     "activationEvents": [
-        "*"
+        "*",
+        "onTerminalProfile:direnv"
     ],
     "main": "./out/src/main",
     "contributes": {
