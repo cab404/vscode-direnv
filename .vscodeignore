@@ -1,0 +1,8 @@
+out/test/**
+test/**
+src/**
+.*
+.*/**
+*.lock
+*.nix
+tsconfig.json

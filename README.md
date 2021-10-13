@@ -1,6 +1,6 @@
 # [direnv](https://github.com/direnv/direnv) for Visual Studio Code
 
-[![Develop this project with Nix + direnv](https://raw.githubusercontent.com/cab404/nixdirenv/master/shield-long.baked.svg)](https://github.com/cab404/nixdirenv/#development)
+[![Develop this project with Nix + direnv](https://raw.githubusercontent.com/cab404/nixdirenv/master/shield-long.baked.png)](https://github.com/cab404/nixdirenv/#development)
 
 This extension adds support for direnv to VS Code, including:
 

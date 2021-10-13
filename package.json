@@ -5,11 +5,13 @@
     "version": "1.0.1",
     "publisher": "cab404",
     "license": "MIT",
-    "contributors": [
+    "maintainers": [
         {
             "name": "cab404",
             "url": "https://github.com/cab404"
-        },
+        }
+    ],
+    "contributors": [
         {
             "name": "rubymaniac",
             "url": "https://github.com/rubymaniac"
@@ -30,8 +32,9 @@
         "url": "https://github.com/cab404/vscode-direnv.git"
     },
     "scripts": {
-        "vscode:prepublish": "npm run compile",
+        "vscode:prepublish": "yarn run compile",
         "package": "vsce package",
+        "install": "yarn run compile; vsce package; cp *.vsix $out",
         "compile": "tsc -p ./",
         "lint": "eslint . --ext .ts,.tsx",
         "watch": "tsc -watch -p ./"
