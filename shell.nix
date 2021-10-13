@@ -1,3 +1,3 @@
 with import <nixpkgs> {}; mkShell {
-    buildInputs = [ nodejs ];
+    buildInputs = [ yarn ];
 }
