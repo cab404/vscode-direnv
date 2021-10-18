@@ -6,3 +6,4 @@ src/**
 *.lock
 *.nix
 tsconfig.json
+!assets/icon.png
