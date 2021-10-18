@@ -1,91 +1,97 @@
 {
-  "name": "vscode-direnv",
-  "displayName": "direnv",
-  "description": "Automatically detect and load .envrc when opening VS Code",
-  "version": "1.0.1",
-  "publisher": "cab404",
-  "icon": "assets/icon.png",
-  "license": "MIT",
-  "extensionKind": [
+    "name": "vscode-direnv",
+    "displayName": "direnv",
+    "description": "Automatically detect and load .envrc when opening VS Code",
+    "version": "1.0.1",
+    "publisher": "cab404",
+    "license": "MIT",
+    "icon": "assets/icon.png",
+    "extensionKind": [
         "ui",
         "workspace"
     ],
-  "maintainers": [{
-    "name": "cab404",
-    "url": "https://github.com/cab404"
-    }],
-  "contributors": [{
-      "name": "rubymaniac",
-      "url": "https://github.com/rubymaniac"
-        },
-    {
-      "name": "timbertson",
-      "url": "https://github.com/timbertson"
+    "maintainers": [
+        {
+            "name": "cab404",
+            "url": "https://github.com/cab404"
         }
     ],
-  "engines": {
-    "vscode": "^1.59.0"
-  },
-  "bugs": {
-    "url": "https://github.com/cab404/vscode-direnv/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/cab404/vscode-direnv.git"
-  },
-  "scripts": {
-    "vscode:prepublish": "yarn run compile",
-    "package": "vsce package",
-    "install": "yarn run compile; vsce package; cp *.vsix $out",
-    "compile": "tsc -p ./",
-    "lint": "eslint . --ext .ts,.tsx",
-    "watch": "tsc -watch -p ./"
-  },
-  "devDependencies": {
-    "@types/node": "^12.20.28",
-    "@types/vscode": "^1.59.0",
-    "@typescript-eslint/eslint-plugin": "^4.33.0",
-    "@typescript-eslint/parser": "^4.33.0",
-    "eslint": "^7.32.0",
-    "typescript": "^4.4.3",
-    "vsce": "^1.100.1"
-  },
-  "categories": [
+    "contributors": [
+        {
+            "name": "rubymaniac",
+            "url": "https://github.com/rubymaniac"
+        },
+        {
+            "name": "timbertson",
+            "url": "https://github.com/timbertson"
+        }
+    ],
+    "engines": {
+        "vscode": "^1.59.0"
+    },
+    "bugs": {
+        "url": "https://github.com/cab404/vscode-direnv/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/cab404/vscode-direnv.git"
+    },
+    "scripts": {
+        "vscode:prepublish": "yarn run compile",
+        "package": "vsce package",
+        "install": "yarn run compile; vsce package; cp *.vsix $out",
+        "compile": "tsc -p ./",
+        "lint": "eslint . --ext .ts,.tsx",
+        "watch": "tsc -watch -p ./"
+    },
+    "devDependencies": {
+        "@types/node": "^12.20.28",
+        "@types/vscode": "^1.59.0",
+        "@typescript-eslint/eslint-plugin": "^4.33.0",
+        "@typescript-eslint/parser": "^4.33.0",
+        "eslint": "^7.32.0",
+        "typescript": "^4.4.3",
+        "vsce": "^1.100.1"
+    },
+    "categories": [
         "Other"
     ],
-  "activationEvents": [
+    "activationEvents": [
         "*",
         "onTerminalProfile:direnv"
     ],
-  "main": "./out/src/main",
-  "contributes": {
-    "terminal": {
-      "profiles": [{
-        "id": "direnv",
-        "title": "direnv-extended terminal"
-            }]
-    },
-    "commands": [{
-        "command": "direnv.version",
-        "title": "direnv: view version",
-        "description": "Shows the version of the direnv installed."
+    "main": "./out/src/main",
+    "contributes": {
+        "terminal": {
+            "profiles": [
+                {
+                    "id": "direnv",
+                    "title": "direnv-extended terminal"
+                }
+            ]
+        },
+        "commands": [
+            {
+                "command": "direnv.version",
+                "title": "direnv: view version",
+                "description": "Shows the version of the direnv installed."
             },
-      {
-        "command": "direnv.view",
-        "title": "direnv: view .envrc",
-        "description": "Opens up the .envrc file."
+            {
+                "command": "direnv.view",
+                "title": "direnv: view .envrc",
+                "description": "Opens up the .envrc file."
             },
-      {
-        "command": "direnv.allow",
-        "title": "direnv: allow .envrc",
-        "description": "Allows direnv to load the .envrc."
+            {
+                "command": "direnv.allow",
+                "title": "direnv: allow .envrc",
+                "description": "Allows direnv to load the .envrc."
             },
-      {
-        "command": "direnv.reload",
-        "title": "direnv: reload .envrc",
-        "description": "Triggers an env reload"
+            {
+                "command": "direnv.reload",
+                "title": "direnv: reload .envrc",
+                "description": "Triggers an env reload"
             }
         ]
-  },
-  "dependencies": {}
+    },
+    "dependencies": {}
 }
