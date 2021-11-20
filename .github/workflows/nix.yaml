@@ -12,10 +12,10 @@ jobs:
 
       - run: |
           nix-build
-          cp result cab404.vscode-direnv.vsix
+          cp result $(readlink result | tail -c+45)
 
       - name: Upload built extension
         uses: actions/upload-artifact@v2
         with:
-          name: "Built .vsix file"
-          path: cab404.vscode-direnv.vsix
+          name: 'vscode-direnv.vsix'
+          path: './*.vsix'
