@@ -1,10 +1,13 @@
 {
   inputs = {
+    compat.url = "github:edolstra/flake-compat";
+    compat.flake = false;
+
     utils.url = "github:numtide/flake-utils";
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
   };
 
-  outputs = { self, nixpkgs, utils }:
+  outputs = { self, nixpkgs, utils, ... }:
     utils.lib.eachDefaultSystem (system:
       let
         attrs = with builtins; fromJSON (readFile ./package.json);
