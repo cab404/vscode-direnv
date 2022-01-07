@@ -1,3 +1,8 @@
+# :warning: You probably
+➡️ [want to take a look at extension we are currently developing to end all the direnv extensions out there.](https://github.com/direnv/direnv-vscode) ⬅️
+
+_This extension will be archived and will start redirecting to it as soon as we are done with the rest of the nitpicks left :heart:_
+
 # [direnv](https://github.com/direnv/direnv) for Visual Studio Code
 
 [![Develop this project with Nix + direnv](https://raw.githubusercontent.com/cab404/nixdirenv/master/shield-long.baked.png)](https://github.com/cab404/nixdirenv/#development)
